@@ -26,4 +26,14 @@ public class Coin implements Comparable<Coin>{
     public int compareTo(Coin o) {
         return Integer.compare(this.denomination, o.denomination);
     }
+
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(obj == this) return true;
+        if(!(obj instanceof Coin)) return false;
+        Coin secondCoin = (Coin) obj;
+        if(this.denomination != secondCoin.denomination) return false;
+
+        return true;
+    }
 }

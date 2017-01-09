@@ -1,9 +1,13 @@
 package service;
 
 import exception.NegativeAmountException;
+import exception.UnrealAmountException;
 import model.Coin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by sorinaccio on 1/8/2017.
@@ -27,6 +31,8 @@ public class OptimalUnlimitedCoinsChangeServiceImpl implements OptimalUnlimitedC
 
         if(pence < 0)
                 throw new NegativeAmountException("Negative amount provided for change. Not Possible!");
+        if(pence > 100000)
+            throw new UnrealAmountException("This is a not real-world amount to be changed");
 
         int amountToBeChanged = pence;
         // array where at each iteration we'll hold T[i] = min(T[i], 1 + T[i-coin[j])
