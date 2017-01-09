@@ -1,5 +1,6 @@
 package service;
 
+import exception.NegativeAmountException;
 import model.Coin;
 
 import java.util.*;
@@ -23,6 +24,9 @@ public class OptimalUnlimitedCoinsChangeServiceImpl implements OptimalUnlimitedC
         Getting optimal change for pence, based on availableCoins denominations
      */
     public Collection<Coin> getOptimalChangeFor(int pence) {
+
+        if(pence < 0)
+                throw new NegativeAmountException("Negative amount provided for change. Not Possible!");
 
         int amountToBeChanged = pence;
         // array where at each iteration we'll hold T[i] = min(T[i], 1 + T[i-coin[j])
