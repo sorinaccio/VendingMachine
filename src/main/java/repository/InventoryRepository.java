@@ -4,6 +4,7 @@ import model.Coin;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -26,10 +27,13 @@ public class InventoryRepository {
 
     public Map<Coin, Integer> readInventory() {
         Properties properties = new Properties();
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
         coinInventory = new TreeMap<Coin, Integer>();
-        try {
-            properties.load(InventoryRepository.class.getResourceAsStream(filename));
+
+        try (InputStream resourceStream = loader.getResourceAsStream(filename)) {
+            properties.load(resourceStream);
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         for (String key : properties.stringPropertyNames()) {
@@ -39,7 +43,6 @@ public class InventoryRepository {
 
         return coinInventory;
     }
-
 
     public void saveInventory(Map<Coin, Integer> inventory) {
         Properties properties = new Properties();

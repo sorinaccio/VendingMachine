@@ -12,45 +12,51 @@ import java.util.List;
  */
 public class ChangeServiceImpl implements ChangeService {
 
+    InventoryService inventoryService;
+    OptimalUnlimitedCoinsChangeService optimalChangeService;
+
+    public ChangeServiceImpl(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
+        this.optimalChangeService = new OptimalUnlimitedCoinsChangeServiceImpl();
+    }
+
     public Collection<Coin> getChangeFor(int pence) {
 
         int amountToBeChanged = pence;
-        InventoryService inventory = new InventoryServiceImpl();
-        OptimalUnlimitedCoinsChangeService optimalChangeService =new OptimalUnlimitedCoinsChangeServiceImpl();
 
         // coins available
-        List<Coin> availableCoins = inventory.getAvailableDenomination();
+        List<Coin> availableCoins = inventoryService.getAvailableDenomination();
 
         optimalChangeService.setCoins(availableCoins);
 
         int balance = amountToBeChanged;
-        List<Coin> finalSoulution = new ArrayList<Coin>();
+        List<Coin> finalSolution = new ArrayList<Coin>();
 
         boolean foundFinalSolution = false;
         List<Coin> temporarySolution = new ArrayList<Coin>(optimalChangeService.getOptimalChangeFor(amountToBeChanged));
         //Collections.reverse(temporarySolution);
 
-        while(temporarySolution.size() > 0 && balance > 0 ) {
+        while (temporarySolution.size() > 0 && balance > 0) {
             Coin currentCoin = temporarySolution.get(0);
-            if (inventory.hasCoin(currentCoin)) {
+            if (inventoryService.hasCoin(currentCoin)) {
                 temporarySolution.remove(0);
-                finalSoulution.add(currentCoin);
+                finalSolution.add(currentCoin);
                 balance = balance - currentCoin.getDenomination();
-                inventory.deduct(currentCoin);
+                inventoryService.deduct(currentCoin);
             } else {
                 // Call again the optimalChange algorithm for the new balance
                 // and consider as denominations only coins available
-                if(inventory.getAvailableDenomination().size() ==0 ||
-                        inventory.getMinimalAvailableCoin().getDenomination() > balance ) {
+                if (inventoryService.getAvailableDenomination().size() == 0 ||
+                        inventoryService.getMinimalAvailableCoin().getDenomination() > balance) {
                     throw new InsufficientCoinsException("Insufficient Coins left to change the balance: " + balance);
                 }
-                availableCoins = inventory.getAvailableDenomination();
+                availableCoins = inventoryService.getAvailableDenomination();
                 optimalChangeService.setCoins(availableCoins);
                 temporarySolution = new ArrayList<Coin>((optimalChangeService.getOptimalChangeFor(balance)));
             }
         }
 
-        return finalSoulution;
+        return finalSolution;
     }
 
 }

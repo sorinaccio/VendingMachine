@@ -13,6 +13,10 @@ public interface InventoryService {
 
     Coin getMinimalAvailableCoin();
 
+    public boolean loadInventory();
+
+    public void persistInventory();
+
     void add(Coin coin);
 
     void deduct(Coin coin);

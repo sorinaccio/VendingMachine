@@ -26,6 +26,10 @@ public class OptimalUnlimitedCoinsChangeServiceImpl implements OptimalUnlimitedC
 
     /*
         Getting optimal change for pence, based on availableCoins denominations
+        Using dynamic programming to find the optimal solution, as we can reuse the algorithm for
+        limited amount of coins.
+        With Greedy, beside for this canonical denomination we can get optimal solution, we cannot
+        reuse the algorithm
      */
     public Collection<Coin> getOptimalChangeFor(int pence) {
 

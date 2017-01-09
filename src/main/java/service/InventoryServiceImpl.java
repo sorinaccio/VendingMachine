@@ -11,17 +11,33 @@ import java.util.*;
 public class InventoryServiceImpl implements InventoryService {
 
     InventoryRepository inventoryRepository;
-    TreeMap<Coin,Integer> inventory;
+    Map<Coin, Integer> inventory;
 
     public int getQuantity(Coin coin) {
         Integer value = inventory.get(coin);
-        return value == null? 0 : value;
+        return value == null ? 0 : value;
+    }
+
+    /*
+        Return true in case we could load the inventory
+     */
+    public boolean loadInventory() {
+        if (inventoryRepository == null) return false;
+        inventory = inventoryRepository.readInventory();
+        if(inventory == null) return false;
+        return true;
+    }
+
+    public void persistInventory() {
+        if(inventoryRepository != null && inventory != null) {
+            inventoryRepository.saveInventory(inventory);
+        }
     }
 
     public Coin getMinimalAvailableCoin() {
         Set<Coin> coins = inventory.keySet();
-        for(Coin coin:coins) {
-            if(hasCoin(coin)) {
+        for (Coin coin : coins) {
+            if (hasCoin(coin)) {
                 return coin;
             }
         }
@@ -30,13 +46,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     public void add(Coin coin) {
         int count = inventory.get(coin);
-        inventory.put(coin,count+1);
+        inventory.put(coin, count + 1);
     }
 
     public void deduct(Coin coin) {
         if (hasCoin(coin)) {
             int count = inventory.get(coin);
-            inventory.put(coin,count-1);
+            inventory.put(coin, count - 1);
         }
     }
 
@@ -44,7 +60,8 @@ public class InventoryServiceImpl implements InventoryService {
         return getQuantity(coin) > 0;
     }
 
-    public InventoryServiceImpl() {
+    public InventoryServiceImpl(InventoryRepository inventoryRepository) {
+        this.inventoryRepository = inventoryRepository;
     }
 
     public Map<Coin, Integer> getInventory() {
@@ -54,9 +71,9 @@ public class InventoryServiceImpl implements InventoryService {
     public List<Coin> getAvailableDenomination() {
         List<Coin> availableCoinList = new ArrayList<Coin>();
         Iterator it = inventory.entrySet().iterator();
-        while(it.hasNext()) {
-            Map.Entry<Coin,Integer> pair = (Map.Entry) it.next();
-            if(pair.getValue() > 0 ) {
+        while (it.hasNext()) {
+            Map.Entry<Coin, Integer> pair = (Map.Entry) it.next();
+            if (pair.getValue() > 0) {
                 availableCoinList.add(pair.getKey());
             }
         }
