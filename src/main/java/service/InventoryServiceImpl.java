@@ -35,8 +35,9 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     public Coin getMinimalAvailableCoin() {
-        Set<Coin> coins = inventory.keySet();
-        for (Coin coin : coins) {
+        List<Coin> allCoins = new ArrayList<>(inventory.keySet());
+        Collections.sort(allCoins);
+        for (Coin coin : allCoins) {
             if (hasCoin(coin)) {
                 return coin;
             }
@@ -77,6 +78,17 @@ public class InventoryServiceImpl implements InventoryService {
                 availableCoinList.add(pair.getKey());
             }
         }
+        Collections.sort(availableCoinList);
         return availableCoinList;
+    }
+
+    public int getTotalAmount() {
+        int amount = 0;
+        Iterator it = inventory.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry<Coin, Integer> pair = (Map.Entry) it.next();
+            amount += pair.getKey().getDenomination() * pair.getValue();
+        }
+        return amount;
     }
 }

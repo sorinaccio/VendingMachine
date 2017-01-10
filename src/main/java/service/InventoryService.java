@@ -26,4 +26,6 @@ public interface InventoryService {
     Map<Coin, Integer> getInventory();
 
     List<Coin> getAvailableDenomination();
+
+    public int getTotalAmount();
 }
