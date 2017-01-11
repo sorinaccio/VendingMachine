@@ -15,7 +15,7 @@ import java.util.TreeMap;
 public class InventoryRepository {
 
     private String filename = "coin-inventory.properties";
-    Map<Coin, Integer> coinInventory;
+    private Map<Coin, Integer> coinInventory;
 
     public String getFilename() {
         return filename;

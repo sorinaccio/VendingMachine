@@ -10,8 +10,8 @@ import java.util.*;
  */
 public class InventoryServiceImpl implements InventoryService {
 
-    InventoryRepository inventoryRepository;
-    Map<Coin, Integer> inventory;
+    private InventoryRepository inventoryRepository;
+    private Map<Coin, Integer> inventory;
 
     public int getQuantity(Coin coin) {
         Integer value = inventory.get(coin);

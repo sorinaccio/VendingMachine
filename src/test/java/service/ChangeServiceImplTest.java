@@ -25,8 +25,6 @@ import static org.mockito.Mockito.when;
  */
 public class ChangeServiceImplTest {
 
-    Map<Coin, Integer> testedInventory;
-
     @Mock
     InventoryRepository inventoryRepositoryMock;
 
@@ -34,7 +32,7 @@ public class ChangeServiceImplTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     InventoryService inventoryService;
-
+    Map<Coin, Integer> testedInventory;
     ChangeService changeService;
 
     @Before
@@ -60,8 +58,8 @@ public class ChangeServiceImplTest {
     public void testGetChangeFor127() throws Exception {
 
         Collection<Coin> expectedSolution = new ArrayList<Coin>();
-        int [] solution = {100, 10, 10, 5, 2};
-        for (int i: solution) {
+        int[] solution = {100, 10, 10, 5, 2};
+        for (int i : solution) {
             expectedSolution.add(new Coin(i));
         }
 
@@ -74,8 +72,8 @@ public class ChangeServiceImplTest {
     public void testGetChangeFor145() throws Exception {
 
         Collection<Coin> expectedSolution = new ArrayList<Coin>();
-        int [] solution = {100, 10, 10, 10, 10, 5};
-        for (int i: solution) {
+        int[] solution = {100, 10, 10, 10, 10, 5};
+        for (int i : solution) {
             expectedSolution.add(new Coin(i));
         }
 
@@ -87,8 +85,8 @@ public class ChangeServiceImplTest {
     public void testGetChangeFor31() throws Exception {
 
         Collection<Coin> expectedSolution = new ArrayList<Coin>();
-        int [] solution = {10, 10, 10, 1};
-        for (int i: solution) {
+        int[] solution = {10, 10, 10, 1};
+        for (int i : solution) {
             expectedSolution.add(new Coin(i));
         }
 
@@ -100,8 +98,8 @@ public class ChangeServiceImplTest {
     public void testGetChangeFor51() throws Exception {
 
         Collection<Coin> expectedSolution = new ArrayList<Coin>();
-        int [] solution = {50, 1};
-        for (int i: solution) {
+        int[] solution = {50, 1};
+        for (int i : solution) {
             expectedSolution.add(new Coin(i));
         }
 
@@ -113,8 +111,8 @@ public class ChangeServiceImplTest {
     public void testGetChangeFor1221() throws Exception {
 
         Collection<Coin> expectedSolution = new ArrayList<Coin>();
-        int [] solution = {100,100,100,100,100,100,100,100,100,100,100, 50, 50, 10, 10, 1};
-        for (int i: solution) {
+        int[] solution = {100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 50, 50, 10, 10, 1};
+        for (int i : solution) {
             expectedSolution.add(new Coin(i));
         }
 
@@ -130,8 +128,8 @@ public class ChangeServiceImplTest {
 
     @Test(expected = NegativeAmountException.class)
     public void testNegativeAmount() throws Exception {
-        Random random=new Random();
-        int randomNegativeAmount=(random.nextInt(101)-200);
+        Random random = new Random();
+        int randomNegativeAmount = (random.nextInt(101) - 200);
         Collection<Coin> computedSolution = changeService.getChangeFor(randomNegativeAmount);
     }
 
@@ -145,7 +143,7 @@ public class ChangeServiceImplTest {
     @Test(expected = InsufficientCoinsException.class)
     public void testInsufficientAmount() {
         int maxMoney = inventoryService.getTotalAmount();
-        Collection<Coin> computedSolution = changeService.getChangeFor(maxMoney+1);
+        Collection<Coin> computedSolution = changeService.getChangeFor(maxMoney + 1);
     }
 
     @Test
@@ -154,10 +152,10 @@ public class ChangeServiceImplTest {
 
         Iterator it = testedInventory.entrySet().iterator();
         List<Coin> expectedSolution = new ArrayList<>();
-        while( it.hasNext()) {
+        while (it.hasNext()) {
             Map.Entry<Coin, Integer> pair = (Map.Entry) it.next();
             int count = pair.getValue();
-            while(count > 0) {
+            while (count > 0) {
                 expectedSolution.add(pair.getKey());
                 count--;
             }

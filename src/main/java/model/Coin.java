@@ -27,6 +27,12 @@ public class Coin implements Comparable<Coin>{
         return Integer.compare(this.denomination, o.denomination);
     }
 
+    @Override
+    public int hashCode() {
+        return denomination;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;
         if(obj == this) return true;

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class ChangeServiceImpl implements ChangeService {
 
-    InventoryService inventoryService;
-    OptimalUnlimitedCoinsChangeService optimalChangeService;
+    private InventoryService inventoryService;
+    private OptimalUnlimitedCoinsChangeService optimalChangeService;
 
     public ChangeServiceImpl(InventoryService inventoryService) {
         this.inventoryService = inventoryService;
