@@ -11,10 +11,6 @@ public class Coin implements Comparable<Coin>{
         return denomination;
     }
 
-    public void setDenomination(int denomination) {
-        this.denomination = denomination;
-    }
-
     public Coin(int denomination) {
         this.denomination = denomination;
     }

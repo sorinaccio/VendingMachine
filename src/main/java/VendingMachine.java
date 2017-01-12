@@ -17,20 +17,19 @@ public class VendingMachine {
     public static void main(String[] args) {
 
 
-        if(args.length != 1)
-                throw new RuntimeException("Illegal Number of parameters passed. Pass the amount to be changed");
+        if (args.length != 1)
+            throw new RuntimeException("Illegal Number of parameters passed. Pass the amount to be changed");
         int amount;
         try {
             amount = Integer.valueOf(args[0]);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             throw new RuntimeException("Argument provided " + args[0] + " cannot be parsed to int");
         }
 
         InventoryRepository repository = new InventoryRepository();
         repository.setFilename(INVENTORY_FILE);
         InventoryService inventoryService = new InventoryServiceImpl(repository);
-        if(!inventoryService.loadInventory()) {
+        if (!inventoryService.loadInventory()) {
             throw new RuntimeException("Inventory could not be loaded. No available coins!");
         }
 
@@ -40,7 +39,7 @@ public class VendingMachine {
         inventoryService.persistInventory();
 
         System.out.println("Optimal Change for " + amount + " with available coins: ");
-        for(Coin coin : changeCoinList) {
+        for (Coin coin : changeCoinList) {
             System.out.print(coin.getDenomination() + " ");
         }
 
