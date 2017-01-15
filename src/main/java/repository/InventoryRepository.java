@@ -39,7 +39,7 @@ public class InventoryRepository {
 
         for (String key : properties.stringPropertyNames()) {
             String value = properties.getProperty(key);
-            int denomination = Integer.parseInt(value);
+            int denomination = Integer.parseInt(key);
             int availableCoins = Integer.parseInt((value));
             if(denomination <= 0)
                 throw new UnrealAmountException("Coin denomination should be positive. Current value: " + denomination);
