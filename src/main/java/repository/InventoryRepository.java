@@ -1,5 +1,6 @@
 package repository;
 
+import exception.UnrealAmountException;
 import model.Coin;
 
 import java.io.FileWriter;
@@ -38,7 +39,13 @@ public class InventoryRepository {
 
         for (String key : properties.stringPropertyNames()) {
             String value = properties.getProperty(key);
-            coinInventory.put(new Coin(Integer.parseInt(key)), Integer.parseInt(value));
+            int denomination = Integer.parseInt(value);
+            int availableCoins = Integer.parseInt((value));
+            if(denomination <= 0)
+                throw new UnrealAmountException("Coin denomination should be positive. Current value: " + denomination);
+            if(availableCoins < 0)
+                throw new UnrealAmountException("Amount of coins in the inventory cannot be negative");
+            coinInventory.put(new Coin(denomination), availableCoins);
         }
 
         return coinInventory;

@@ -26,15 +26,15 @@ public class ChangeServiceImpl implements ChangeService {
 
         // coins available
         List<Coin> availableCoins = inventoryService.getAvailableDenomination();
-
+        if(availableCoins == null || availableCoins.isEmpty() ) {
+            throw new InsufficientCoinsException("No coin available in the inventory!");
+        }
         optimalChangeService.setCoins(availableCoins);
 
         int balance = amountToBeChanged;
         List<Coin> finalSolution = new ArrayList<Coin>();
 
-        boolean foundFinalSolution = false;
         List<Coin> temporarySolution = new ArrayList<Coin>(optimalChangeService.getOptimalChangeFor(amountToBeChanged));
-        //Collections.reverse(temporarySolution);
 
         while (temporarySolution.size() > 0 && balance > 0) {
             Coin currentCoin = temporarySolution.get(0);
@@ -46,7 +46,7 @@ public class ChangeServiceImpl implements ChangeService {
             } else {
                 // Call again the optimalChange algorithm for the new balance
                 // and consider as denominations only coins available
-                if (inventoryService.getAvailableDenomination().size() == 0 ||
+                if (inventoryService.getAvailableDenomination().isEmpty() ||
                         inventoryService.getMinimalAvailableCoin().getDenomination() > balance) {
                     throw new InsufficientCoinsException("Insufficient Coins left to change the balance: " + balance);
                 }

@@ -47,7 +47,7 @@ public class OptimalUnlimitedCoinsChangeServiceImpl implements OptimalUnlimitedC
         // o coins required to form value of 0
         T[0] = 0;
 
-        // initialize T[i] with infinte as we will apply a min function on iteration with already exiting values
+        // initialize T[i] with infinite as we will apply a min function on iteration with already exiting values
         // R[i] initialized with -1, representing NO Possibility to make change for i
         for (int i = 1; i <= amountToBeChanged; i++) {
             T[i] = Integer.MAX_VALUE - 1;
@@ -61,7 +61,7 @@ public class OptimalUnlimitedCoinsChangeServiceImpl implements OptimalUnlimitedC
                 // consider only when the current coin is less than the current value to be changed
                 int currentCoinValue = availableCoins.get(j).getDenomination();
                 if (i >= currentCoinValue) {
-                    if (T[i - currentCoinValue] + 1 < T[i]) {
+                    if (T[i - currentCoinValue] + 1 <= T[i]) {
                         T[i] = 1 + T[i - currentCoinValue];
                         R[i] = j;
                     }
